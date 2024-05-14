@@ -1,7 +1,8 @@
 process BISMARK_ALIGN {
     tag "$meta.id"
     label 'process_high'
-
+    disk '2000.GB'
+    machineType 'e2-highmem-16'
     conda "bioconda::bismark=0.24.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bismark:0.24.0--hdfd78af_0' :
@@ -51,7 +52,7 @@ process BISMARK_ALIGN {
             log.warn "Not able to define bismark align multicore based on available memory"
         }
         if(ccore > 1){
-            args += " --multicore ${ccore}"
+            args += " --multicore 15"
         }
     }
 
